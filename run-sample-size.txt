@@ -1,0 +1,45 @@
+mkdir /net/snowwhite/home/aeyliu/pima/prediXcan/simulations/utmost-comparison/results/sample-size
+for j in {50,100,150,200,250,300,350,400,450,500}
+do
+mkdir /net/snowwhite/home/aeyliu/pima/prediXcan/simulations/utmost-comparison/results/sample-size/target-ss-$j
+ for i in {1..9000}
+ do
+  mkdir /net/snowwhite/home/aeyliu/pima/prediXcan/simulations/utmost-comparison/results/sample-size/target-ss-$j/run$i
+  mkdir /net/snowwhite/home/aeyliu/pima/prediXcan/simulations/utmost-comparison/results/sample-size/target-ss-$j/run$i/Y
+  mkdir /net/snowwhite/home/aeyliu/pima/prediXcan/simulations/utmost-comparison/results/sample-size/target-ss-$j/run$i/Y.test
+
+ done
+done
+
+
+Rscript /net/snowwhite/home/aeyliu/pima/prediXcan/simulations/utmost-comparison/sim-sample-size.R
+
+for j in {50,100,150,200,250,300,350,400,450,500}
+do
+ for i in {8001..9000} 
+ do
+
+  X=/net/snowwhite/home/aeyliu/pima/prediXcan/simulations/utmost-comparison/results/sample-size/target-ss-$j/run$i/X.txt
+  info=/net/snowwhite/home/aeyliu/pima/prediXcan/simulations/utmost-comparison/info.txt
+  Y_folder=/net/snowwhite/home/aeyliu/pima/prediXcan/simulations/utmost-comparison/results/sample-size/target-ss-$j/run$i/Y/
+  ntune=5 #number of grids for each tuning parameter
+  output_path=/net/snowwhite/home/aeyliu/pima/prediXcan/simulations/utmost-comparison/results/sample-size/target-ss-$j/run$i/
+  output_prefix=cor # prefix of output files
+  X_test=/net/snowwhite/home/aeyliu/pima/prediXcan/simulations/utmost-comparison/results/sample-size/target-ss-$j/run$i/X.test.txt
+  Y_test=/net/snowwhite/home/aeyliu/pima/prediXcan/simulations/utmost-comparison/results/sample-size/target-ss-$j/run$i/Y.test/
+
+  Rscript main-modified.R ${X} ${info} ${Y_folder} ${ntune} ${output_prefix} ${output_path} ${X_test} ${Y_test}
+ done
+done
+
+for j in {50,100,150,200,250,300,350,400,450,500}
+do
+ for i in {1..1000} 
+ do
+  cat /net/snowwhite/home/aeyliu/pima/prediXcan/simulations/utmost-comparison/results/sample-size/target-ss-$j/run$i/utmost_correlation.txt >> /net/snowwhite/home/aeyliu/pima/prediXcan/simulations/utmost-comparison/results/sample-size-results-$j.txt
+
+ done
+done
+
+
+
