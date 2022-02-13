@@ -1,4 +1,4 @@
-# Manuscript Resource for SWAM (Smartly weighted averaging across multiple tissues)
+# Manuscript Resource for SWAM 
 
 ## Overview
 
